@@ -20,7 +20,7 @@ app.use(express.json());
 // Routes
 
 app.get('/', (req, res) => {
-  res.send('Hi');
+  res.send('WhatsUp BackEnd');
 });
 
 export default app;

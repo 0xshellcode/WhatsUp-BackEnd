@@ -17,6 +17,6 @@ app.use(express_1.default.urlencoded({ extended: false }));
 app.use(express_1.default.json());
 // Routes
 app.get('/', (req, res) => {
-    res.send('Hi');
+    res.send('WhatsUp BackEnd');
 });
 exports.default = app;
