@@ -8,7 +8,7 @@ const server = app.listen(app.get('port'), () => {
 });
 const io = new Server(server);
 
-//initializing the socket io connection
+// Initializing the socket io connection
 io.on('connection', (socket) => {
   // For a new user joining the room
   socket.on('joinRoom', ({ username, roomname }) => {
@@ -20,7 +20,7 @@ io.on('connection', (socket) => {
 
     // Show welcome message
 
-    socket.emit('message', {
+    socket.emit('joinRoom:welcome', {
       userID: newUser.id,
       username: newUser.username,
       text: `Welcome ${newUser.username}`,
@@ -28,7 +28,7 @@ io.on('connection', (socket) => {
 
     // Broadcast that a new user has joined the room
 
-    socket.broadcast.to(newUser.room).emit('message', {
+    socket.broadcast.to(newUser.room).emit('joinRoom:newUser', {
       userID: newUser.id,
       username: newUser.username,
       text: `${newUser.username} has joined the chat`,
@@ -42,7 +42,7 @@ io.on('connection', (socket) => {
 
     const user = getUserID(socket.id);
 
-    io.to(user.room).emit('message', {
+    io.to(user.room).emit('chat:message', {
       userID: user.id,
       username: user.username,
       text: text,
