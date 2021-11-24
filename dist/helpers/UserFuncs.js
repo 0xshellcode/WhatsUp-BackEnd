@@ -1,12 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.userDisconnect = exports.getUserID = exports.joinUser = void 0;
+exports.usersList = exports.userDisconnect = exports.getUserID = exports.joinUser = void 0;
 const usersList = [];
-const joinUser = (id, username, room) => {
-    const newUser = { id, username, room };
+exports.usersList = usersList;
+const joinUser = (id, username, room, pubkey) => {
+    const newUser = { id, username, room, pubkey };
     usersList.push(newUser);
     console.log('A new user has been added');
-    console.log(`There are: ${usersList.length}`);
+    console.log(`There are: ${usersList.length} users connected`);
     return newUser;
 };
 exports.joinUser = joinUser;

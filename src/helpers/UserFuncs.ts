@@ -1,10 +1,10 @@
 const usersList: any = [];
 
-const joinUser = (id: any, username: any, room: any) => {
-  const newUser = { id, username, room };
+const joinUser = (id: any, username: any, room: any, pubkey: any) => {
+  const newUser = { id, username, room, pubkey };
   usersList.push(newUser);
   console.log('A new user has been added');
-  console.log(`There are: ${usersList.length}`);
+  console.log(`There are: ${usersList.length} users connected`);
 
   return newUser;
 };
@@ -21,4 +21,4 @@ const userDisconnect = (id: any) => {
   }
 };
 
-export { joinUser, getUserID, userDisconnect };
+export { joinUser, getUserID, userDisconnect, usersList };

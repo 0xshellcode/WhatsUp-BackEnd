@@ -14,9 +14,9 @@ const io = new socket_io_1.Server(server);
 // Initializing the socket io connection
 io.on('connection', (socket) => {
     // For a new user joining the room
-    socket.on('joinRoom', ({ username, roomname }) => {
+    socket.on('joinRoom', ({ username, roomname, pubkey }) => {
         // New user creation
-        const newUser = (0, UserFuncs_1.joinUser)(socket.id, username, roomname);
+        const newUser = (0, UserFuncs_1.joinUser)(socket.id, username, roomname, pubkey);
         console.log('New Connection!', socket.id);
         socket.join(newUser.room);
         // Show welcome message
@@ -25,6 +25,10 @@ io.on('connection', (socket) => {
             username: newUser.username,
             text: `Welcome ${newUser.username}`,
         });
+        const pubkeysArray = UserFuncs_1.usersList.map((user) => {
+            return user.pubkey;
+        });
+        socket.emit('joinRoom:shareKeys', pubkeysArray);
         // Broadcast that a new user has joined the room
         socket.broadcast.to(newUser.room).emit('joinRoom:newUser', {
             userID: newUser.id,
