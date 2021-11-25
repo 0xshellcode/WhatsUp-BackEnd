@@ -25,10 +25,12 @@ io.on('connection', (socket) => {
             username: newUser.username,
             text: `Welcome ${newUser.username}`,
         });
+        // Get publickey
         const pubkeysArray = UserFuncs_1.usersList.map((user) => {
             return user.pubkey;
         });
-        socket.emit('joinRoom:shareKeys', pubkeysArray);
+        // Emit current public keys
+        io.sockets.emit('joinRoom:shareKeys', pubkeysArray);
         // Broadcast that a new user has joined the room
         socket.broadcast.to(newUser.room).emit('joinRoom:newUser', {
             userID: newUser.id,
@@ -40,7 +42,7 @@ io.on('connection', (socket) => {
     socket.on('chat', (text) => {
         // Gets the room user and the message sent
         const user = (0, UserFuncs_1.getUserID)(socket.id);
-        io.to(user.room).emit('chat:message', {
+        socket.broadcast.to(user.room).emit('chat:message', {
             userID: user.id,
             username: user.username,
             text: text,
