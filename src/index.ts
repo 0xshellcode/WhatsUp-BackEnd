@@ -73,7 +73,14 @@ io.on('connection', (socket) => {
 
     const user = getUserID(socket.id);
 
-    socket.broadcast.to(user.room).emit('chat:message', {
+    /*    socket.broadcast.to(user.room).emit('chat:message', {
+      userID: user.id,
+      username: user.username,
+      text: text,
+    });
+ */
+
+    io.to(user.room).emit('chat:message', {
       userID: user.id,
       username: user.username,
       text: text,
