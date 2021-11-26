@@ -14,6 +14,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "copyfiles": "^2.4.1",
     "cors": "^2.8.5",
     "encrypt-rsa": "^1.1.0",
     "express": "^4.17.1",

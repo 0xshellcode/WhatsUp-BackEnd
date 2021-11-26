@@ -1,0 +1,9 @@
+version: "3"
+
+services:
+  api:
+    container_name: whatsup_backend
+    restart: always
+    build: .
+    ports:
+      - "5001:5000"
