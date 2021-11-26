@@ -5,12 +5,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 require('dotenv').config();
 const app_1 = __importDefault(require("./app"));
+const https_1 = __importDefault(require("https"));
 const socket_io_1 = require("socket.io");
+const fs_1 = __importDefault(require("fs"));
 const UserFuncs_1 = require("./helpers/UserFuncs");
-const server = app_1.default.listen(app_1.default.get('port'), () => {
-    console.log('Server on port:', app_1.default.get('port'));
+const secureServer = https_1.default
+    .createServer({
+    cert: fs_1.default.readFileSync('./cert/server.crt'),
+    key: fs_1.default.readFileSync('./cert/server.key'),
+}, app_1.default)
+    .listen(app_1.default.get('port'), () => {
+    console.log('Server running on SSL/TLS serving on port: ', app_1.default.get('port'));
 });
-const io = new socket_io_1.Server(server);
+/* const server = app.listen(app.get('port'), () => {
+  console.log('Server on port:', app.get('port'));
+});
+ */
+//const io = new Server(server);
+const io = new socket_io_1.Server(secureServer);
 // Initializing the socket io connection
 io.on('connection', (socket) => {
     // For a new user joining the room

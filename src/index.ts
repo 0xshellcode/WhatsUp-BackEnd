@@ -1,6 +1,9 @@
 require('dotenv').config();
 import app from './app';
+import https from 'https';
 import { Server } from 'socket.io';
+import fs from 'fs';
+
 import {
   joinUser,
   getUserID,
@@ -8,10 +11,24 @@ import {
   usersList,
 } from './helpers/UserFuncs';
 
-const server = app.listen(app.get('port'), () => {
+const secureServer = https
+  .createServer(
+    {
+      cert: fs.readFileSync('./cert/server.crt'),
+      key: fs.readFileSync('./cert/server.key'),
+    },
+    app
+  )
+  .listen(app.get('port'), () => {
+    console.log('Server running on SSL/TLS serving on port: ', app.get('port'));
+  });
+
+/* const server = app.listen(app.get('port'), () => {
   console.log('Server on port:', app.get('port'));
 });
-const io = new Server(server);
+ */
+//const io = new Server(server);
+const io = new Server(secureServer);
 
 // Initializing the socket io connection
 io.on('connection', (socket) => {
